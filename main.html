@@ -1,0 +1,84 @@
+<!DOCTYPE h0tml>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Defer Test</title>
+  <script src="/static/js/jquery.js"></script>
+  <script src="/static/js/keymaster.js"></script>
+  <link href="/static/css/main.css" type="text/css" rel="stylesheet">
+  <script>
+  $(function(){
+	// making shortcut works in Textarea by return true without check!
+	key.filter = function(event){
+	  return true;
+	}
+	key('ctrl+enter', function(){ 
+		$('#code-form').submit();
+	});
+
+	var ndSelector = $('#template-selector');
+	var ndCheck = $("#new-window-checkbox");
+	function loadTemplate() {
+		var template = ndSelector.val();
+		$.get('/template/' + template, function(res){
+			$("#source-editor").val(res);
+		});
+	}
+	function resetTarget() {
+		var checked = ndCheck.is(':checked');
+		$("#code-form").attr('target', checked ? "_blank" : "frame");
+	}
+	ndSelector.change(loadTemplate);
+	ndCheck.click(resetTarget);
+
+	loadTemplate();
+	resetTarget();
+	
+  });
+  
+  </script>
+</head>
+<body>
+  <div class='header'>
+  	<a class='title'>File Loading and Page Blocking Tester</a>
+  </div>
+  <div class='content'>
+  	<div class='edit-box'>
+  		<div class='box-header'>
+  			<h4>Source Code</h4>
+  		</div>
+  		 <form action='/start' method='post' target='frame' id='code-form'>
+  		 	<div class='editor-wrapper'>
+  		 		<textarea name='source' id='source-editor'></textarea>
+  		 	</div>
+		  	
+		  	<div class='config-group'>
+
+		  		<span>Select template:</span>
+	  			<select id='template-selector'>
+	  				<option value='template-1.html'>template-1</option>
+	  			</select>
+
+				<label class='new-window-cb'>
+					<input type="checkbox" id="new-window-checkbox">
+					<span class="lbl"> open in new window</span>
+				</label>
+
+		  		<input class='submit' type='submit' value='Submit( Ctrl + Enter )' />
+		  	</div>
+  		</form>
+  	</div>
+  	<div class='preview-box'>
+	  	<div class='box-header'>
+	  		<h4>Preview Area</h4>
+	  	</div>
+	  	<div class='preview-wrapper'>
+	  		<iframe name='frame' class='preview-frame'></iframe>
+	  	</div>
+  		
+  	</div>
+  	
+  </div>
+  
+</body>
+</html>
