@@ -93,13 +93,11 @@
   		_height: expression((this.parentNode.offsetHeight - 110) + 'px');
   	}
   	#source-editor {
-  		position:absolute;
-  		top:0px;
-  		bottom:0px;
   		width: 100%;
   		padding: 10px;
   		font-family: "Courier";
   		box-sizing: border-box;
+      height: 100%;
 
   		_height: expression((this.parentNode.offsetHeight - 30) + 'px'); /* IE6 */
   	}

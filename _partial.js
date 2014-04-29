@@ -43,7 +43,7 @@ g.log = function(content) {
     function rand() {
         return (+(new Date()) + Math.random().toString(32).substring(2));
     }
-    g.send('/t/log?random=' + rand() + '&text=' + content); //For IE6,7,8
+    g.send('/log?random=' + rand() + '&text=' + content); //For IE6,7,8
 };
 
 // cross browser domReady
