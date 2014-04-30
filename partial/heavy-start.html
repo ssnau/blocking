@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Defer Test</title>
+	<script>
+
+	//heavy start
+	g.log('heavy start');
+	var start = +(new Date()), now;
+
+	while (1) {
+	    now = +(new Date());
+	    if (now - start > 3000) {
+	        g.log('end heavy start');
+	        break;
+	    }
+	}
+	</script>
+  <script src='/t/wait-4s-defer.js' defer></script>
+  <script src='/t/wait-4s-defer2.js' defer></script>
+  <script src='/t/wait-2s-1-busy-4s.js' ></script>
+  <script src='/t/wait-2s-2.js' ></script>
+  <script src='/t/wait-2s-3-busy-1s.js' ></script>
+  <link href="/t/wait-6s-red.css" type="text/css" rel="stylesheet">
+  <script src='/t/wait-2s-another.js' ></script>
+  <link href="/t/wait-4s-lightblue.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+  <h1>Hello World</h1>
+  <img src="/t/wait-10s.jpg" />
+</body>
+</html>

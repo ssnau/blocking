@@ -37,10 +37,39 @@ function parseWaitTime(pathname) {
     }
 }
 
+/**
+ * just like parseWaitTime.
+ * @param  {[type]} pathname
+ * @return {[type]}
+ */
+function parseBusyTime(pathname) {
+     try {
+        return +(pathname.match(/busy-(\d+)s/)[1]) * 1000;
+    } catch (e) {
+        return 0;
+    }
+}
+
+function replace(str, config) {
+    for (key in config) {
+        str = str.replace(new RegExp('\\$' + key, 'g'), config[key]);
+    }
+    return str;
+}
+
 var template = {
     js: function(pathname) {
-        var code = "g.log('execute ' + '$content');"
-        return code.replace('$content', pathname);
+        var code = "g.log('execute ' + '$pathname');"
+        var busy = parseBusyTime(pathname);
+        
+        if (busy) {
+            code = fs.readFileSync(path.join(__dirname, 'partial/busy.js'), 'utf8');
+        }
+
+        return replace(code, {
+            'pathname': pathname,
+            'busy': busy
+        });
     },
     css: function(pathname) {
         var match = pathname.match(/-([^-]*)\.css/);
@@ -59,7 +88,6 @@ function getSpentTime() {
 function removeVersion(url) {
     return url.replace(/[?&]v=\d+/, '')
 }
-
 
 function log(text) {
     console.log(text);
@@ -95,12 +123,12 @@ module.exports = {
     },
     log: function() {
         return function(req, res, next) {
-            log(getSpentTime() + "[client] " + req.param('text'));
+            log(req.param('text'));
             res.end();
         }
     },
-    reset: function() {
+    reset: function(timestamp) {
         log('-----------------');
-        startTime = Date.now();
+        startTime = timestamp || Date.now();
     }
 }

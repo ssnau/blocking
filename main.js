@@ -16,12 +16,15 @@ app.post("/start", function(req, res) {
         'Content-Type': 'text/html',
         'X-XSS-Protection': '0'
     });
-    t.reset();
+    var timestamp = req.body.timestamp || Date.now();
+    t.reset(req.body.timestamp);
     var source = req.body.source;
     // 1. make version number after all request
     source = util.versionize(source, (Date.now() + '').substring(5));
     // 2. add partial JS
     source = util.addJsPartial(source);
+
+    source = source.replace('$start', timestamp);
     // 3. send
     res.send(source);
 });

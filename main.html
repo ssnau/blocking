@@ -18,6 +18,12 @@
 
 	var ndSelector = $('#template-selector');
 	var ndCheck = $("#new-window-checkbox");
+	var ndForm = $('form#code-form');
+
+	ndForm.submit(function(){
+		$("#timestamp-input").val(+(new Date()));
+	});
+
 	function loadTemplate() {
 		var template = ndSelector.val();
 		$.get('/template/' + template, function(res){
@@ -26,8 +32,9 @@
 	}
 	function resetTarget() {
 		var checked = ndCheck.is(':checked');
-		$("#code-form").attr('target', checked ? "_blank" : "frame");
+		ndForm.attr('target', checked ? "_blank" : "frame");
 	}
+
 	ndSelector.change(loadTemplate);
 	ndCheck.click(resetTarget);
 
@@ -48,6 +55,7 @@
   			<h4>Source Code</h4>
   		</div>
   		 <form action='/start' method='post' target='frame' id='code-form'>
+  		 	<input type="hidden" name="timestamp" id='timestamp-input' /> 
   		 	<div class='editor-wrapper'>
   		 		<textarea name='source' id='source-editor'></textarea>
   		 	</div>
@@ -57,6 +65,7 @@
 		  		<span>Select template:</span>
 	  			<select id='template-selector'>
 	  				<option value='template-1.html'>template-1</option>
+	  				<option value='heavy-start.html'>heavy-start</option>
 	  			</select>
 
 				<label class='new-window-cb'>
@@ -75,10 +84,7 @@
 	  	<div class='preview-wrapper'>
 	  		<iframe name='frame' class='preview-frame'></iframe>
 	  	</div>
-  		
   	</div>
-  	
   </div>
-  
 </body>
 </html>
