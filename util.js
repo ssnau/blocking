@@ -1,8 +1,6 @@
 var fs = require('fs');
 
-var partial = fs.readFileSync('./_partial.js');
 
-partial = "<script>\n" + partial + "\n</script>"
 
 module.exports = {
     /**
@@ -29,6 +27,9 @@ module.exports = {
      * @param {[type]} source html document
      */
     addJsPartial: function(source) {
+        var setupScript = fs.readFileSync('partial/setup.js');
+
+        partial = "<script>\n" + setupScript + "\n</script>";
         return source.replace("<head>", "<head>\n" + partial);
     }
 }

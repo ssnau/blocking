@@ -18,6 +18,7 @@
   "homepage": "https://github.com/ssnau/script-loading-tutorial",
   "dependencies": {
     "body-parser": "~1.0.2",
-    "express": "~4.1.1"
+    "express": "~4.1.1",
+    "ua-parser": "~0.3.3"
   }
 }

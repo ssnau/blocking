@@ -1,8 +1,11 @@
 var g = {};
 g.now = Date.now || function now() {
-                return new Date().getTime();
-            };
+    return new Date().getTime();
+};
 g.start = $start; // timestamp from server
+
+// cross browser ajax request
+// http://www.quirksmode.org/js/xmlhttp.html
 g.send = (function() {
     var XMLHttpFactories = [
 
@@ -41,6 +44,7 @@ g.send = (function() {
         req.send();
     };
 })();
+
 g.log = function(content) {
     // add random number, in case some shit browser cache the request..
     function rand() {
@@ -54,7 +58,7 @@ g.log = function(content) {
     g.send('/log?random=' + rand() + '&text=[' + spent + 'ms]' + content);
 };
 
-// cross browser domReady
+// cross browser contentLoaded
 // https://github.com/dperini/ContentLoaded/blob/master/src/contentloaded.js
 (function contentLoaded(win, fn) {
 

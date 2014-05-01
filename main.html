@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Defer Test</title>
+  <title>Blocking - The last file loading tester</title>
   <script src="/static/js/jquery.js"></script>
   <script src="/static/js/keymaster.js"></script>
   <link href="/static/css/main.css" type="text/css" rel="stylesheet">
@@ -23,22 +23,45 @@
 	ndForm.submit(function(){
 		$("#timestamp-input").val(+(new Date()));
 	});
+	
+	var rand = function() {
+		return (+(new Date()));
+	}
+	var rUrl = function(url) {
+		var time = (+(new Date()));
+		return url + (/[?]/.test(url) ? '&' : '?') + 'rand=' + time;
+	}
+
+
 
 	function loadTemplate() {
 		var template = ndSelector.val();
-		$.get('/template/' + template, function(res){
+		$.get(rUrl('/template/' + template), function(res){
 			$("#source-editor").val(res);
 		});
 	}
+
+	function loadTemplateList() {
+		$.getJSON(rUrl("/templates"), function(files){
+			var optionTemplate = "<option value='filename'>withoutExt</option>";
+			var optionsAsString = "";
+			for(var i = 0; i < files.length; i++) {
+				optionsAsString += optionTemplate.replace("filename", files[i]).replace("withoutExt", files[i].replace(/\..*/, ''));
+			}
+			ndSelector.append(optionsAsString);
+			setTimeout(loadTemplate, 1);
+		});
+	}
+	
 	function resetTarget() {
 		var checked = ndCheck.is(':checked');
-		ndForm.attr('target', checked ? "_blank" : "frame");
+		ndForm.attr('target', checked ? "blank" : "frame");
 	}
 
 	ndSelector.change(loadTemplate);
 	ndCheck.click(resetTarget);
 
-	loadTemplate();
+	loadTemplateList();
 	resetTarget();
 	
   });
@@ -47,7 +70,7 @@
 </head>
 <body>
   <div class='header'>
-  	<a class='title'>File Loading and Page Blocking Tester</a>
+  	<a class='title'>Blocking</a>
   </div>
   <div class='content'>
   	<div class='edit-box'>
@@ -63,10 +86,7 @@
 		  	<div class='config-group'>
 
 		  		<span>Select template:</span>
-	  			<select id='template-selector'>
-	  				<option value='template-1.html'>template-1</option>
-	  				<option value='heavy-start.html'>heavy-start</option>
-	  			</select>
+	  			<select id='template-selector'><!--templates will be loaded via ajax--></select>
 
 				<label class='new-window-cb'>
 					<input type="checkbox" id="new-window-checkbox">

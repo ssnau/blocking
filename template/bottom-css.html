@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Bottom CSS</title>
+  <link href="/t/wait-0s-red.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+  <h1>Hello World</h1>
+  <script src='/t/wait-4s.js' ></script>
+  <script src='/t/wait-2s.js' ></script>
+  <link href="/t/wait-4s-lightblue.css" type="text/css" rel="stylesheet">
+</body>
+</html>
+
+<!--
+
+This template is going to test how browser rendering the page
+when we put a css file at the very bottom of the page.
+
+Result
+========
+
+All the browser first show a red background page, after
+executing all the script in body, the backgound of the page
+became lightblue.
+
+NOTE: Even though modern browser as FF28 and Chrome 34 had
+downloaded the `lightblue.css` in the very beginning, they
+still delay calculate the lightblue.css file till all the
+scripts being executed.
+
+-->

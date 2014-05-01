@@ -43,7 +43,7 @@ function parseWaitTime(pathname) {
  * @return {[type]}
  */
 function parseBusyTime(pathname) {
-     try {
+    try {
         return +(pathname.match(/busy-(\d+)s/)[1]) * 1000;
     } catch (e) {
         return 0;
@@ -61,7 +61,7 @@ var template = {
     js: function(pathname) {
         var code = "g.log('execute ' + '$pathname');"
         var busy = parseBusyTime(pathname);
-        
+
         if (busy) {
             code = fs.readFileSync(path.join(__dirname, 'partial/busy.js'), 'utf8');
         }
@@ -128,7 +128,6 @@ module.exports = {
         }
     },
     reset: function(timestamp) {
-        log('-----------------');
         startTime = timestamp || Date.now();
     }
 }
