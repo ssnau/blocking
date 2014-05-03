@@ -1,4 +1,4 @@
-blocking
+Blocking
 ========
 
 A super simple file loading and page blocking tester.
