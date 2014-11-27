@@ -43,7 +43,15 @@ app.post("/start", function(req, res) {
     source = util.addJsPartial(source);
 
     source = source.replace('$start', timestamp);
-    // 3. send
+
+    // 3. parse flush 
+    
+    if (/\{\{\s*flush\s+\d+\}\}/.test(source)) {
+      util.handleFlushEarly(source, res);
+      return;
+    }
+
+    // 4. send
     setTimeout(function() {
         res.send(source);
     }, 200);
