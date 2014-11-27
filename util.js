@@ -33,11 +33,11 @@ module.exports = {
      */
     addJsPartial: function(source) {
         var setupScript = "";
-        if (source.indexOf('{{complex}}')) {
+        if (source.indexOf('{{complex}}') !== -1) {
           setupScript = fs.readFileSync('partial/setup.js');
+          source = source.replace("{{complex}}", "");
         } else {
           setupScript = fs.readFileSync('partial/setup-light.js');
-          source = source.replace("{{complex}}", "");
         }
 
         partial = "<script>\n" + setupScript + "\n</script>";

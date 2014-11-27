@@ -38,7 +38,7 @@ You can now use {{flush xx}} command to flush your document early while the rest
 </html>
 ```
 
-In this example, you will first see the first paragragh and then after 1000ms you will see the second paragraph.
+In this example, you will see the first paragragh instantly and then after 1000ms you will see the second paragraph.
 As the script show, you will have to wait for 2000ms to see the third paragragh and another 2000ms to get the rest.
 It is helpful for you to analyze how the "flush early" strategy affect your page loading performance when the dom structure is complex.
 
@@ -49,9 +49,9 @@ There are several macros for you to customize your script/css blocking time. For
 - `<scirpt src="/t/busy-3s.js"></script>`, the script will execute a loop for 3s while it will blocking everything on the page.
 - `<script src="/t/wait-2s-busy-3s.js"></script>`, combine this two macro you will get a script that require 2s to download and 3s to be executed.
 
-This rule is also applied to CSS.
+These rules are also applied to CSS.
 
-- `<link rel="stylesheet" href="/t/wait-3s.css" />` will get a empty style sheet after 3s.
+- `<link rel="stylesheet" href="/t/wait-3s.css" />` will get an empty style sheet after 3s.
 - `<link rel="stylesheet" href="/t/wait-3s-red.css" />`, the last word of the request means the body color property in the incoming css file, after the css is applied your document background will turn red.
 
 

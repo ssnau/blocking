@@ -78,6 +78,9 @@ var template = {
     },
     jpg: function() {
         return imgBinary;
+    },
+    html: function () {
+      return "<h1>hello world</h1>";
     }
 };
 
