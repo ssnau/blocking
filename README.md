@@ -17,7 +17,15 @@ Get Started
 Features
 =======
 
-[2014-11-27] 
+####[2014-11-28]
+
+
+ - You can now use {{no-cache}} to eliminate cache problem, otherwise you will meet cache hit from the resources in the same name.
+
+ - A div will get background image if you assign 'sp1' as its class. The tailing `1` means the image will get 1s latency. However, you can also use `sp2`, `sp3` up to `sp10.
+
+####[2014-11-27] 
+
 You can now use {{flush xx}} command to flush your document early while the rest part of your document still pending.
 
 ```
@@ -42,7 +50,8 @@ In this example, you will see the first paragragh instantly and then after 1000m
 As the script show, you will have to wait for 2000ms to see the third paragragh and another 2000ms to get the rest.
 It is helpful for you to analyze how the "flush early" strategy affect your page loading performance when the dom structure is complex.
 
-[init version] 
+####[init version] 
+
 There are several macros for you to customize your script/css blocking time. For example:
 
 - `<scirpt src="/t/wait-3s.js"></script>`, will tell the engine that this script will blocking for 3s before the server send the very first byte.

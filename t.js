@@ -31,7 +31,7 @@ function makeHeader(pathname, res) {
  **/
 function parseWaitTime(pathname) {
     try {
-        return +(pathname.match(/wait-(\d+)s/)[1]) * 1000;
+        return +parseFloat(pathname.match(/wait-([0-9.]+)s/)[1]) * 1000;
     } catch (e) {
         return 0;
     }
@@ -74,7 +74,21 @@ var template = {
     css: function(pathname) {
         var match = pathname.match(/-([^-]*)\.css/);
         match = match ? match[1] : 'undefined';
-        return "body {width:300px;height:300px;background:$bgcolor}".replace('$bgcolor', match);
+
+        function getSp(i) {
+            return '.sp#i {width:300px;height:300px;background:url(/t/sp-wait-#is.jpg)}'.replace(/#i/g, i);
+        }
+
+        var source = [
+            '.body {width:300px;height:300px;background:$bgcolor}',
+            getSp(0), getSp(1), getSp(2), getSp(3), getSp(4), getSp(5),
+            getSp(6), getSp(7), getSp(8), getSp(9), getSp(10)
+            ].join('\n');
+
+        // add version number for image and replace bgcolor
+        return source.replace(/\.jpg/g, function() {
+                return '.jpg?v=' + Math.floor(Math.random() * 10000) + '' + Date.now();
+            }).replace('$bgcolor', match);
     },
     jpg: function() {
         return imgBinary;

@@ -38,7 +38,9 @@ app.post("/start", function(req, res) {
     t.reset(req.body.timestamp);
     var source = req.body.source;
     // 1. make version number after all request
-    source = util.versionize(source, (Date.now() + '').substring(5));
+    if (source.indexOf('{{no-cache}}')) {
+        source = util.versionize(source);
+    }
     // 2. add partial JS
     source = util.addJsPartial(source);
 

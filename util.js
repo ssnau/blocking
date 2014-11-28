@@ -13,7 +13,11 @@ module.exports = {
         // add version after all scr, href
         return source.replace(/(src|href)=["'](.+?)["']/g, function(all, m1, m2) {
             var c = /[?]/.test(all) ? "&" : "?";
-            var v = version || Date.now();
+            var v = version || (Math.random() + '' + Date.now());
+            // if it is a data uri, don't append version number
+            if (/^data/.test(m2)) {
+                return all;
+            }
             return ret = m1 + '="' + m2 + c + "v=" + v + '"';
         });
     },
