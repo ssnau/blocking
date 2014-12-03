@@ -5,6 +5,8 @@ A super simple file loading and page blocking tester.
 
 You can customize your page and submit it to see how different the script blocking the page.
 
+The online version is here [Blocking](http://blocking.liuxijin.com).
+
 
 Get Started
 ========
@@ -16,6 +18,11 @@ Get Started
 
 Features
 =======
+
+###[2014-12-4]
+
+- I've host the project on [Blocking](http://blocking.liuxijin.com), you can visit it and have try.
+- Once you commit a request your snippet will save forever. Just don't forget the snippet code in the url.
 
 ####[2014-11-28]
 
