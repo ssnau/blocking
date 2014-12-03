@@ -14,7 +14,11 @@ module.exports = {
         // add version after all scr, href
         return source.replace(/(src|href)=["'](.+?)["']/g, function(all, m1, m2) {
             var c = /[?]/.test(all) ? "&" : "?";
-            var v = version || Date.now();
+            var v = version || (Math.random() + '' + Date.now());
+            // if it is a data uri, don't append version number
+            if (/^data/.test(m2)) {
+                return all;
+            }
             return ret = m1 + '="' + m2 + c + "v=" + v + '"';
         });
     },
@@ -83,7 +87,9 @@ module.exports = {
     handleSource: function (source, res) {
       var me = this;
       // 1. make version number after all request
-      source = me.versionize(source, (Date.now() + '').substring(5));
+      if (source.indexOf('{{no-cache}}')) {
+          source = util.versionize(source);
+      }
       // 2. add partial JS
       source = me.addJsPartial(source);
 
