@@ -1,5 +1,6 @@
 var fs = require('fs');
-
+var setupHeavyScript = fs.readFileSync('partial/setup.js');
+var setupLightScript = fs.readFileSync('partial/setup-light.js');
 
 
 module.exports = {
@@ -34,10 +35,10 @@ module.exports = {
     addJsPartial: function(source) {
         var setupScript = "";
         if (source.indexOf('{{complex}}') !== -1) {
-          setupScript = fs.readFileSync('partial/setup.js');
+          setupScript = setupHeavyScript;
           source = source.replace("{{complex}}", "");
         } else {
-          setupScript = fs.readFileSync('partial/setup-light.js');
+          setupScript = setupLightScript;
         }
 
         partial = "<script>\n" + setupScript + "\n</script>";

@@ -2,6 +2,7 @@ var url = require("url"),
     path = require("path"),
     fs = require("fs"),
     imgBinary = fs.readFileSync(path.join(__dirname, "img.jpg")),
+    busyCode = fs.readFileSync(path.join(__dirname, 'partial/busy.js'), 'utf8');
     startTime;
 
 function type(pathname) {
@@ -63,7 +64,7 @@ var template = {
         var busy = parseBusyTime(pathname);
 
         if (busy) {
-            code = fs.readFileSync(path.join(__dirname, 'partial/busy.js'), 'utf8');
+            code = busyCode;
         }
 
         return replace(code, {
