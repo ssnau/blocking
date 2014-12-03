@@ -33,14 +33,6 @@
 	}
 
 	function loadTemplate() {
-                var match = document.location.pathname.match(/edit\/(\w+)/);
-                if (match) {
-                  $.get('/sources/' + match[1], function(res) {
-                     console.log(res);
-                     $("#source-editor").val(res);
-                  });
-                  return;
-                }
 
 		var template = ndSelector.val();
 		$.get(rUrl('/template/' + template), function(res){
@@ -56,7 +48,17 @@
 				optionsAsString += optionTemplate.replace("filename", files[i]).replace("withoutExt", files[i].replace(/\..*/, ''));
 			}
 			ndSelector.append(optionsAsString);
-			setTimeout(loadTemplate, 1);
+
+			var match = document.location.pathname.match(/edit\/(\w+)/);
+			if (match) {
+			  $.get('/sources/' + match[1], function(res) {
+			     console.log(res);
+			     $("#source-editor").val(res);
+			  });
+			  return;
+			} else {
+			    setTimeout(loadTemplate, 1);
+			}
 		});
 	}
 	

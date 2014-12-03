@@ -31,8 +31,12 @@ app.get('/sources/:id', function(req, res) {
       res.send(404, 'source file not found');
       return;
     }
+    
+    res.set({
+        "Content-Type": 'text/plain'
+    });
+    res.end(content);
 
-    res.send(content);
   });
 });
 app.get('/templates', function(req, res) {
@@ -78,10 +82,17 @@ app.get('/log', t.log());
 
 app.get(/^\/t\/.*/, t.mw());
 
-/* serves all the static files */
-app.get(/^(.+)$/, function(req, res) {
+/* serves the static files */
+app.get(/^\/static\/(.+)$/, function(req, res) {
     //console.log('static file request : ' + req.params);
-    res.sendfile(__dirname + req.params[0]);
+    res.sendfile(path.join(__dirname , 'static',  req.params[0]));
+});
+app.get(/^\/template\/(.+)$/, function(req, res) {
+    //console.log('static file request : ' + req.params);
+    fs.readFile(path.join(__dirname , 'template',  req.params[0]), function (err, data) {
+        res.set({ "Content-Type": 'text/plain' });
+        res.end(String(data));
+    });
 });
 
 var port = process.env.PORT || 5000;
