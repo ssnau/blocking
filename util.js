@@ -1,7 +1,7 @@
 var fs = require('fs');
 var setupHeavyScript = fs.readFileSync('partial/setup.js');
 var setupLightScript = fs.readFileSync('partial/setup-light.js');
-
+var path = require('path');
 
 module.exports = {
     /**
@@ -79,5 +79,44 @@ module.exports = {
       }, function finish(err) {
         res.end(); 
       });
+    },
+    handleSource: function (source, res) {
+      var me = this;
+      // 1. make version number after all request
+      source = me.versionize(source, (Date.now() + '').substring(5));
+      // 2. add partial JS
+      source = me.addJsPartial(source);
+
+      // 3. parse flush 
+      if (/\{\{\s*flush\s+\d+\}\}/.test(source)) {
+        me.handleFlushEarly(source, res);
+        return;
+      }
+
+      // 4. send
+      setTimeout(function() {
+          res.send(source);
+      }, 200);
+
+    },
+    randomFilename: function () {
+      var r = Math.random().toString(32).substr(2) + Math.random().toString(32).substr(7);
+      console.log(r);
+      return r.split('').map(function(c){
+        if (Math.floor(Math.random() *10) % 2) {
+          return c.toUpperCase();
+        }
+        return c;
+      }).join('');
+    },
+    getFileSource: function(filename, callback) {
+        if (/^\s+$/.test(filename)) {
+          callbck("file not exists");
+          return;
+        }
+        fs.readFile(path.join('_content', filename + ".source"), function(err, data) {
+          callback(err, err ? null :String(data));
+        });
     }
+
 }

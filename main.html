@@ -32,9 +32,16 @@
 		return url + (/[?]/.test(url) ? '&' : '?') + 'rand=' + time;
 	}
 
-
-
 	function loadTemplate() {
+                var match = document.location.pathname.match(/edit\/(\w+)/);
+                if (match) {
+                  $.get('/sources/' + match[1], function(res) {
+                     console.log(res);
+                     $("#source-editor").val(res);
+                  });
+                  return;
+                }
+
 		var template = ndSelector.val();
 		$.get(rUrl('/template/' + template), function(res){
 			$("#source-editor").val(res);
@@ -61,7 +68,7 @@
 	ndSelector.change(loadTemplate);
 	ndCheck.click(resetTarget);
 
-	loadTemplateList();
+        loadTemplateList();
 	resetTarget();
 	
   });

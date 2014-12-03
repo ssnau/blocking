@@ -2,7 +2,7 @@ var g = {};
 g.now = Date.now || function now() {
     return new Date().getTime();
 };
-g.start = $start; // timestamp from server
+g.start = g.now();
 
 // cross browser ajax request
 // http://www.quirksmode.org/js/xmlhttp.html

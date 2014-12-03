@@ -2,7 +2,7 @@ var url = require("url"),
     path = require("path"),
     fs = require("fs"),
     imgBinary = fs.readFileSync(path.join(__dirname, "img.jpg")),
-    busyCode = fs.readFileSync(path.join(__dirname, 'partial/busy.js'), 'utf8');
+    busyCode = fs.readFileSync(path.join(__dirname, 'partial/busy.js'), 'utf8'),
     startTime;
 
 function type(pathname) {

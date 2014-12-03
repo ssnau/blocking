@@ -6,6 +6,13 @@ var path = require('path');
 var app = express();
 var t = require('./t');
 var util = require('./util');
+var contentPath = path.join(__dirname, '_content');
+
+
+// make dir if not exist
+if (!fs.existsSync(contentPath)) {
+  fs.mkdirSync(contentPath); 
+}
 
 app.use(bodyParser());
 
@@ -14,12 +21,36 @@ app.get("/", function(req, res) {
     res.sendfile('main.html');
 });
 
+app.get("/edit/:id", function(req, res) {
+    res.sendfile('main.html');
+});
+
+app.get('/sources/:id', function(req, res) {
+  util.getFileSource(req.params.id, function(err, content) {
+    if (err) {
+      res.send(404, 'source file not found');
+      return;
+    }
+
+    res.send(content);
+  });
+});
 app.get('/templates', function(req, res) {
     fs.readdir(path.join(__dirname, 'template'), function(err, files) {
         var filenames = files.map(function(name) {
             return path.basename(name);
         });
         res.send(filenames);
+    });
+});
+
+app.get("/page/:id", function(req, res) {
+    util.getFileSource(req.params.id, function(err, content) {
+      if (err) {
+        res.send(404, "Your requesting is illegal...");
+        return;
+      }
+      util.handleSource(content, res);
     });
 });
 
@@ -34,28 +65,13 @@ app.post("/start", function(req, res) {
         'Content-Type': 'text/html',
         'X-XSS-Protection': '0'
     });
-    var timestamp = req.body.timestamp || Date.now();
-    t.reset(req.body.timestamp);
     var source = req.body.source;
-    // 1. make version number after all request
-    source = util.versionize(source, (Date.now() + '').substring(5));
-    // 2. add partial JS
-    source = util.addJsPartial(source);
-
-    source = source.replace('$start', timestamp);
-
-    // 3. parse flush 
-    
-    if (/\{\{\s*flush\s+\d+\}\}/.test(source)) {
-      util.handleFlushEarly(source, res);
-      return;
-    }
-
-    // 4. send
-    setTimeout(function() {
-        res.send(source);
-    }, 200);
-
+    var filename = util.randomFilename();
+    fs.writeFile(path.join(contentPath, filename + ".source"), source, function(err, data){
+      if (err) return;
+      console.log("it saved");
+      res.redirect('/page/' + filename);
+    });
 });
 
 app.get('/log', t.log());
