@@ -44,7 +44,7 @@ app.get('/templates', function(req, res) {
     });
 });
 
-app.get("/page/:id", function(req, res) {
+app.get("/preview/:id", function(req, res) {
     util.getFileSource(req.params.id, function(err, content) {
       if (err) {
         res.send(404, "Your requesting is illegal...");
@@ -70,7 +70,7 @@ app.post("/start", function(req, res) {
     fs.writeFile(path.join(contentPath, filename + ".source"), source, function(err, data){
       if (err) return;
       console.log("it saved");
-      res.redirect('/page/' + filename);
+      res.redirect('/preview/' + filename);
     });
 });
 

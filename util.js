@@ -88,7 +88,7 @@ module.exports = {
       var me = this;
       // 1. make version number after all request
       if (source.indexOf('{{no-cache}}')) {
-          source = util.versionize(source);
+          source = me.versionize(source);
       }
       // 2. add partial JS
       source = me.addJsPartial(source);
@@ -120,7 +120,9 @@ module.exports = {
           callbck("file not exists");
           return;
         }
-        fs.readFile(path.join('_content', filename + ".source"), function(err, data) {
+        var p = path.join(__dirname, '_content', filename + ".source");
+        console.log(p);
+        fs.readFile(p, function(err, data) {
           callback(err, err ? null :String(data));
         });
     }
