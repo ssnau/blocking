@@ -21,15 +21,15 @@ Features
 
 ###[2014-12-4]
 
-- I've host the project on [Blocking](http://blocking.liuxijin.com), you can visit it and have try.
-- Once you commit a request your snippet will save forever. Just don't forget the snippet code in the url.
+- I've host the project on [Blocking](http://blocking.liuxijin.com), you can visit it and have a try.
+- Once you commit a request your snippet will be saved forever. Just don't forget the snippet code in the url.
 
 ####[2014-11-28]
 
 
  - You can now use {{no-cache}} to eliminate cache problem, otherwise you will meet cache hit from the resources in the same name.
 
- - A div will get background image if you assign 'sp1' as its class. The tailing `1` means the image will get 1s latency. However, you can also use `sp2`, `sp3` up to `sp10.
+ - A div will get background image if you assign 'sp1' as its class. The tailing `1` means the image will get 1s latency. However, you can also use `sp2`, `sp3` up to `sp10`.
 
 ####[2014-11-27] 
 
